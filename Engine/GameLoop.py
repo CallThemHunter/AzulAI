@@ -75,8 +75,10 @@ class Game:
     def set_starting_player(self):
         idx = self.players.index(self.starting_player)
 
-        for i in range(0, idx):
+        for _ in range(0, idx):
             self.players.append(self.players.pop(0))
+
+        self.i = 0
         return
 
     def player_request(self):
@@ -95,7 +97,12 @@ class Game:
         if self.no_tiles_remain():
             for player in self.players:
                 player.end_turn_reset()
+                if player.has_starting_marker:
+                    self.starting_player = player
+                    player.has_starting_marker = False
+                    self.center.has_starting_tile = True
             self.fill_factories()
+            self.set_starting_player()
 
         state = self.players[self.i].state()
         score = self.players[self.i].score
