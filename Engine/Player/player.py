@@ -58,6 +58,8 @@ class Player:
             if source.has_starting_tile:
                 self.has_starting_marker = True
                 source.has_starting_tile = False
+                # add starting tile to board.
+                self._board.floor += [-1]
         else:
             return False
 
